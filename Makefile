@@ -9,7 +9,7 @@ UNITDIR?=/usr/lib/systemd/system
 .PHONY: clean
 
 cert-monitor: cert-monitor.c
-	gcc -Wall -Werror -o $@ $(SYSTEMD_LIBS) $(SYSTEMD_CFLAGS) $(DBUS_LIBS) $(DBUS_CFLAGS) -ldbus-1 $<
+	gcc -Wall -Werror $< -o $@ $(SYSTEMD_LIBS) $(SYSTEMD_CFLAGS) $(DBUS_LIBS) $(DBUS_CFLAGS) -ldbus-1
 
 install: cert-monitor
 	install -D -m755 cert-monitor $(DESTDIR)/$(BINDIR)/cert-monitor
