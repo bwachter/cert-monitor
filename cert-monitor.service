@@ -1,0 +1,9 @@
+[Unit]
+Description=Certificate change monitor
+
+[Service]
+ExecStart=/usr/bin/cert-monitor
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

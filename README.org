@@ -1,0 +1,23 @@
+* cert-monitor
+
+A simple inotify based tool to watch a directory with keys and certificates, and restart services if any of them change.
+
+** Quick start
+*** Create the key directory
+The default key directory is =/etc/ssl/keys=. Currently only a single directory is supported. It is assumed that whatever changes keys in this directory makes sure that the permissions on the files don't allow wide access.
+
+A reasonable approach might be to add a group like =ssl-cert= (if you're using debian you might have it already), make all your daemons requiring certificate access part of that group, and set =/etc/ssl/keys= to =root:ssl-cert= with mode =0750=. Set all the keys to =root:ssl-cert= with mode =0640=.
+*** Create the monitoring configuration
+The default directory for the monitor is =/etc/cert-monitor.d=. For each file to be monitored it contains a subdirectory matching the key name, which contains filenames matching the services to be restarted. The =.service= extension needs to be part of the name.
+
+For example, with the keys/certificates =default.key= and =default.crt= available, and the systemd services =dovecot= and =lighttpd= to be restarted you'd do something like this:
+
+#+BEGIN_SRC bash
+> mkdir -p /etc/cert-monitor.d/default.key
+> ln -s /etc/cert-monitor.d/default.key /etc/cert-monitor.d/default.crt
+> touch /etc/cert-monitor.d/default.key/lighttpd.service /etc/cert-monitor.d/default.key/dovecot.service
+#+END_SRC
+
+If you want a different configuration for the key and the certificate don't symlink the directory, but create a second one instead.
+*** Start the cert-monitor service
+A simple systemd unit file is included, enable it, and start the service. You can find activity information in systemds journal.
