@@ -1,7 +1,7 @@
 DBUS_LIBS=$(shell pkg-config --libs dbus-1)
 DBUS_CFLAGS=$(shell pkg-config --cflags dbus-1)
-SYSTEMD_LIBS=$(shell pkg-config --libs libsystemd-journal)
-SYSTEMD_CFLAGS=$(shell pkg-config --cflags libsystemd-journal)
+SYSTEMD_LIBS=$(shell pkg-config --libs libsystemd-journal || pkg-config --libs libsystemd)
+SYSTEMD_CFLAGS=$(shell pkg-config --cflags libsystemd-journal || pkg-config --cflags libsystemd)
 
 BINDIR?=/usr/bin
 UNITDIR?=/usr/lib/systemd/system
